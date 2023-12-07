@@ -9,9 +9,8 @@ export default function Todo() {
     completed: boolean
   }
 
-  const [todoValueForm, setTodoValueForm] = useState<DefaultTodo[]>([]) // Variable where the list of Todo Action items is present
+  const [todoList, setTodoList] = useState<DefaultTodo[]>([]) // Variable where the list of Todo Action items is present
   const [currentTodo, setCurrentTodo] = useState<string>("") // Where new todo will be stored
-  const [completedList, setCompletedList] = useState<DefaultTodo[]>([]) // Variable where the list of completed Todo items is present
 
   const addTodo = () => {
     // Do not allow space as a valid todo
@@ -22,7 +21,7 @@ export default function Todo() {
         completed: false,
       }
 
-      setTodoValueForm([...todoValueForm, newTodo])
+      setTodoList([...todoList, newTodo])
       setCurrentTodo("") // Clear the currentTodo after adding it to the array
     } else {
       setCurrentTodo("") // Clear the currentTodo since it's an empty string
@@ -35,18 +34,23 @@ export default function Todo() {
   }
 
   const toggleTodo = (id: number) => {
-    const updatedTodos = todoValueForm.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    )
-    const completedTodo = todoValueForm.find((todo) => todo.id === id)
+    const updatedTodos = todoList.map((todo) => {
+      // If the todo's id matches the provided id, toggle its completed status
+      if (todo.id === id) {
+        // Find the completed todo with the provided id
+        const completedTodo = todoList.find((t) => t.id === id)
 
-    setTodoValueForm(updatedTodos)
+        // Log the completed todo
+        console.log("Completed Todo:", completedTodo)
 
-    if (completedTodo && completedTodo.completed) {
-      setCompletedList([...completedList, completedTodo])
-    } else {
-      setCompletedList(completedList.filter((todo) => todo.id !== id))
-    }
+        return { ...todo, completed: !todo.completed }
+      } else {
+        return todo
+      }
+    })
+
+    // Update the todoList with the new array of updated todos
+    setTodoList(updatedTodos)
   }
 
   return (
@@ -65,7 +69,7 @@ export default function Todo() {
       {/* Display the list of todos with completed: false */}
       <h5>Todo</h5>
       <ul className={styles.todoList}>
-        {todoValueForm
+        {todoList
           .filter((todo) => !todo.completed)
           .map((todo) => (
             <li key={todo.id} className={styles.todo}>
@@ -82,7 +86,7 @@ export default function Todo() {
       {/* Display the list of completed todos */}
       <h5>Completed</h5>
       <ul className={styles.todoList}>
-        {todoValueForm
+        {todoList
           .filter((todo) => todo.completed)
           .map((todo) => (
             <li key={todo.id} className={styles.completed}>
