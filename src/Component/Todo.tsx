@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react"
+import styles from "./Todo.module.css"
 
 export default function Todo() {
   interface DefaultTodo {
@@ -52,9 +53,9 @@ export default function Todo() {
       </form>
 
       {/* Display the list of todos */}
-      <ul>
+      <ul className={styles.todoList}>
         {todoValueForm.map((todo) => (
-          <li key={todo.id}>
+          <li key={todo.id} className={todo.completed ? styles.completed : ""}>
             <input
               type="checkbox"
               checked={todo.completed}

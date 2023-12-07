@@ -1,0 +1,8 @@
+.completed {
+  text-decoration: line-through grey;
+  text-color: hsla(0 0 50 0.5);
+}
+
+.todoList {
+  list-style-type: none; /* Remove bullets for the entire list */
+}
