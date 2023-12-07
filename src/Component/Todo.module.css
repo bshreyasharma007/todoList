@@ -1,6 +1,6 @@
 .completed {
   text-decoration: line-through grey;
-  text-color: hsla(0 0 50 0.5);
+  color: grey;
 }
 
 .todoList {
