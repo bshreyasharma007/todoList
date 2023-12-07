@@ -32,6 +32,12 @@ export default function Todo() {
     addTodo() // Call addTodo when the form is submitted
   }
 
+  const toggleTodo = (id: number) => {
+    const updatedTodos = todoValueForm.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    )
+    setTodoValueForm(updatedTodos)
+  }
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -47,8 +53,15 @@ export default function Todo() {
 
       {/* Display the list of todos */}
       <ul>
-        {todoValueForm.map((todo, index) => (
-          <li key={index}>{todo.todo}</li>
+        {todoValueForm.map((todo) => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            />
+            {todo.todo}
+          </li>
         ))}
       </ul>
     </>
